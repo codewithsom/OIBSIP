@@ -1,2 +1,2 @@
 # OIBSIP
-Web Development and Designing
+Web Development and Designing Internship
