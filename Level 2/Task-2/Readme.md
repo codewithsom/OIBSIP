@@ -1,1 +1,1 @@
-<h4 align="centre">Tribute Page of : Dr. APJ Abdul Kalam </h4>
+<h4 align="center">Tribute Page of : Dr. APJ Abdul Kalam </h4>
