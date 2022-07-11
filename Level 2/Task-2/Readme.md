@@ -1,2 +1,1 @@
-<h4 align="left">Tribute Page of : </h4>
-<h5 align="left">Dr. APJ Abdul Kalam</h5>
+<h4 align="centre">Tribute Page of : Dr. APJ Abdul Kalam </h4>
