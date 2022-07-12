@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>TO-DO List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            background: #0300b4;
+            font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            height: 100%;
+        }
+
+        @keyframes strikeitem {
+            to {
+                width: calc(100% + 1rem);
+            }
+        }
+
+        #todolist {
+            margin: 4rem auto;
+            padding: 2rem 3rem 3rem;
+            max-width: 500px;
+            background: #66b8ff;
+            color: rgb(0, 0, 0);
+            box-shadow: -20px -20px 0px 0px rgba(100, 100, 100, .1);
+        }
+
+        #todolist h1 {
+            /*text-align:center;*/
+            font-weight: normal;
+            font-size: 2.6rem;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid rgba(255, 255, 255, .3);
+        }
+
+        #todolist h1 span {
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 0.7rem;
+            margin-left: 3px;
+            margin-top: 0.2rem;
+        }
+
+        #todolist .emptylist {
+            margin-top: 2.6rem;
+            text-align: center;
+            letter-spacing: .05em;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        #todolist ul {
+            margin-top: 2.6rem;
+            list-style: none;
+        }
+
+        #todolist .todolist-move {
+            transition: transform 1s;
+        }
+
+        #todolist li {
+            display: flex;
+            margin: 0 -3rem 4px;
+            padding: 1.1rem 3rem;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #todolist .actions {
+            flex-shrink: 0;
+            padding-left: 0.7em;
+        }
+
+        #todolist .label {
+            position: relative;
+            transition: opacity .2s linear;
+        }
+
+        #todolist .done .label {
+            opacity: .6;
+        }
+
+        #todolist .done .label:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -.5rem;
+            display: block;
+            width: 0%;
+            height: 1px;
+            background: rgb(235, 236, 239);
+            animation: strikeitem .3s ease-out 0s forwards;
+        }
+
+        #todolist .btn-picto {
+            border: none;
+            background: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            color: rgb(50, 19, 204);
+        }
+
+        /* FORM */
+
+        form {
+            margin-top: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        form label {
+            min-width: 100%;
+            margin-bottom: .5rem;
+            font-size: 1.3rem;
+        }
+
+        form input {
+            flex-grow: 1;
+            border: none;
+            background: #d2edff;
+            padding: 0 1.5em;
+            font-size: initial;
+        }
+
+        form button {
+            padding: 0 1.3rem;
+            border: none;
+            background: #1459ee;
+            color: rgb(0, 0, 0);
+            text-transform: uppercase;
+            font-weight: bold;
+            border: 1px solid rgba(4, 1, 226, 0.674);
+            margin-left: 5px;
+            cursor: pointer;
+            transition: background .2s ease-out;
+        }
+
+        form button:hover {
+            background: #3e96f4;
+        }
+
+        form input,
+        form button {
+            font-family: 'Quicksand', sans-serif;
+            height: 3rem;
+        }
+
+        /* TOOGLE COMPONENT */
+
+        .togglebutton-wrapper {
+            margin-top: 1em;
+        }
+
+        .togglebutton-wrapper label {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .togglebutton-wrapper input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .togglebutton-wrapper .togglebutton-label {
+            font-size: .8rem;
+            letter-spacing: .1em
+        }
+
+        .togglebutton-wrapper .tooglebutton-box {
+            position: relative;
+            display: block;
+            margin-left: 0.6em;
+            width: 38px;
+            height: 22px;
+            background: white;
+            /*border:1px solid black;*/
+            border-radius: 999px;
+            cursor: pointer;
+        }
+
+        .togglebutton-wrapper .tooglebutton-box:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            display: block;
+            width: 18px;
+            height: 18px;
+            /*border:1px solid #FF6666;*/
+            border-radius: 50%;
+            background: #070a0d;
+            opacity: 0.7;
+            transition: all .2s ease-in-out;
+        }
+
+        .togglebutton-wrapper.togglebutton-focus .tooglebutton-box {
+            box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .togglebutton-wrapper.togglebutton-checked .tooglebutton-box:before {
+            left: calc(100% - 4px - 16px);
+            opacity: 1;
+        }
+    </style>
+
+    <script>
+        window.console = window.console || function(t) {};
+    </script>
+
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+
+</head>
+
+<body translate="no">
+    <main id="todolist">
+        <h1>
+            Todo List
+        </h1>
+
+        <template v-if="todo.length">
+    <transition-group name="todolist" tag="ul">
+      <li v-for="item in todoByStatus" v-bind:class="item.done ? 'done' : ''" v-bind:key="item.id">
+        <span class="label">{{item.label}}</span>
+        <div class="actions">
+          <button class="btn-picto" type="button" v-on:click="markAsDoneOrUndone(item)" v-bind:aria-label="item.done ? 'Undone' : 'Done'" v-bind:title="item.done ? 'Undone' : 'Done'">
+            <i aria-hidden="true" class="material-icons">{{ item.done ? 'check_box' : 'check_box_outline_blank' }}</i>
+          </button>
+          <button class="btn-picto" type="button" v-on:click="deleteItemFromList(item)" aria-label="Delete" title="Delete">
+            <i aria-hidden="true" class="material-icons">delete</i>
+          </button>
+        </div>
+      </li>
+    </transition-group>
+    <togglebutton 
+                  label="Move done items at the end?"
+                  name="todosort"
+                  v-on:clicked="clickontoogle" />
+  </template>
+        <p v-else class="emptylist">Your todo list is empty.</p>
+
+        <form name="newform" v-on:submit.prevent="addItem">
+            <label for="newitem">Add to the todo list</label>
+            <input type="text" name="newitem" id="newitem" v-model="newitem">
+            <button type="submit">Add item</button>
+        </form>
+    </main>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script>
+    <script id="rendered-js">
+        Vue.component('togglebutton', {
+            props: ['label', 'name'],
+            template: `<div class="togglebutton-wrapper" v-bind:class="isactive ? 'togglebutton-checked' : ''">
+      <label v-bind:for="name">
+        <span class="togglebutton-label">{{ label }}</span>
+        <span class="tooglebutton-box"></span>
+      </label>
+      <input v-bind:id="name" type="checkbox" v-bind:name="name" v-model="isactive" v-on:change="onToogle">
+  </div>`,
+            model: {
+                prop: 'checked',
+                event: 'change'
+            },
+
+            data: function() {
+                return {
+                    isactive: false
+                };
+
+            },
+            methods: {
+                onToogle: function() {
+                    this.$emit('clicked', this.isactive);
+                }
+            }
+        });
+
+
+
+        var todolist = new Vue({
+            el: '#todolist',
+            data: {
+                newitem: '',
+                sortByStatus: false,
+                todo: [{
+                        id: 1,
+                        label: "Go to Gym.",
+                        done: true
+                    },
+                    {
+                        id: 2,
+                        label: "Read self development books.",
+                        done: false
+                    },
+                    {
+                        id: 3,
+                        label: "Learn new skills.",
+                        done: false
+                    }
+                ]
+            },
+
+
+            methods: {
+                addItem: function() {
+                    this.todo.push({
+                        id: Math.floor(Math.random() * 9999) + 10,
+                        label: this.newitem,
+                        done: false
+                    });
+                    this.newitem = '';
+                },
+                markAsDoneOrUndone: function(item) {
+                    item.done = !item.done;
+                },
+                deleteItemFromList: function(item) {
+                    let index = this.todo.indexOf(item);
+                    this.todo.splice(index, 1);
+                },
+                clickontoogle: function(active) {
+                    this.sortByStatus = active;
+                }
+            },
+
+            computed: {
+                todoByStatus: function() {
+
+                    if (!this.sortByStatus) {
+                        return this.todo;
+                    }
+
+                    var sortedArray = [];
+                    var doneArray = this.todo.filter(function(item) {
+                        return item.done;
+                    });
+                    var notDoneArray = this.todo.filter(function(item) {
+                        return !item.done;
+                    });
+
+                    sortedArray = [...notDoneArray, ...doneArray];
+                    return sortedArray;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
